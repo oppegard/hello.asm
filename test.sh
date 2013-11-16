@@ -8,7 +8,7 @@ function red {
   echo -e "$(tput setaf 1)$1$(tput sgr0)"
 }
 
-function assert_result () {
+function assert_zero () {
   if [ -z "$1" ]; then
     red "  FAIL: No value given to assert"
   elif [ "${1}" == 0 ]; then
@@ -29,21 +29,21 @@ function test_nasm () {
   fi
 
   nasm -f "${elf_arch}" hello.asm
-  assert_result $?
+  assert_zero $?
 }
 
 function test_ld () {
   echo "test_ld:"
 
   ld -e _start -o hello hello.o
-  assert_result $?
+  assert_zero $?
 }
 
 function test_executable () {
   echo "test_executable:"
 
   ./hello
-  assert_result $?
+  assert_zero $?
 }
 
 function cleanup () {
