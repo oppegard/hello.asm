@@ -32,11 +32,19 @@ function test_nasm () {
   assert_result $?
 }
 
+function test_ld () {
+  echo "test_ld:"
+
+  ld -e _start -o hello hello.o
+  assert_result $?
+}
+
 function cleanup () {
   rm hello.o
 }
 
 
 test_nasm
+test_ld
 
 cleanup
