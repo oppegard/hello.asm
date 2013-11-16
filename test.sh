@@ -39,12 +39,21 @@ function test_ld () {
   assert_result $?
 }
 
+function test_executable () {
+  echo "test_executable:"
+
+  ./hello
+  assert_result $?
+}
+
 function cleanup () {
   rm hello.o
+  rm hello
 }
 
 
 test_nasm
 test_ld
+test_executable
 
 cleanup
