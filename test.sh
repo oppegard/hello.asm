@@ -14,7 +14,7 @@ function assert_zero () {
   elif [ "${1}" == 0 ]; then
     green "  PASS"
   else
-    red "  FAIL: expected 0, actual ${1}"
+    red "  FAIL: expected 0, actual was ${1}"
   fi
 }
 
@@ -35,8 +35,13 @@ function test_nasm () {
 function test_ld () {
   echo "test_ld:"
 
-  ld -e _start -o hello hello.o
+  ld_output=`ld -e _start -o hello hello.o 2>&1`
   assert_zero $?
+  if [ -z "${ld_output}" ]; then
+    green "  PASS"
+  else
+    red "  FAIL: expected no output, actual was ${ld_output}"
+  fi
 }
 
 function test_executable () {
