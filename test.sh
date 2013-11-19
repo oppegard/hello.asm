@@ -47,9 +47,22 @@ function test_ld () {
 function test_executable () {
   echo "test_executable:"
 
-  ./hello
+  ./hello 2>&1 > /dev/null
   assert_zero $?
 }
+
+function test_executable_output () {
+  echo "test_executable_output:"
+
+  expected_str="Hello world!"
+  exe_output=`./hello`
+  if [ "${expected_str}" == "${exe_output}" ]; then
+    green "  PASS"
+  else
+    red "  FAIL: expected '${expected_str}', actual was '${exe_output}'"
+  fi
+}
+
 
 function cleanup () {
   rm hello.o
@@ -60,5 +73,6 @@ function cleanup () {
 test_nasm
 test_ld
 test_executable
+test_executable_output
 
 cleanup
